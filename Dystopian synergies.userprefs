@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\Movement\FPSMovement.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Environment\Jumper.cs" Line="7" Column="30" />
+      <File FileName="Assets\Scripts\Player\Movement\FPSMovement.cs" Line="33" Column="56" />
+      <File FileName="Assets\Scripts\Player\Camera\FPSCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Environment\Accelerator.cs" Line="17" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
