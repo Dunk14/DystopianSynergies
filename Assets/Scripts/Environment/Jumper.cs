@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Jumper : MonoBehaviour {
 
-	public float jumpForce = 500f;
+	public float jumpForce = 2000f;
 
 	void Start () {
 		
