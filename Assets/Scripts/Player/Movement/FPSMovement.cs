@@ -66,7 +66,15 @@ public class FPSMovement : MonoBehaviour {
 		// Arrêt prompt du glissement
 		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D))
 		    && isGrounded) {
-			rb.velocity /= 1.15f;
+			rb.velocity *= 0.9f;
+		}
+
+		// Friction légère en l'air
+		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D))) {
+			Vector3 newVelocity = rb.velocity * 0.99f;
+			// Keep the original vertical velocity (jump speed)
+			newVelocity.y = rb.velocity.y;
+			rb.velocity = newVelocity;
 		}
 
 		// Saut du joueur
@@ -81,11 +89,15 @@ public class FPSMovement : MonoBehaviour {
 		}
 
 		// Dash button
-		if (Input.GetKey (KeyCode.E) && dashGauge > 0) {
-			rb.AddRelativeForce (0, 0, dashVelocity);
-			dashGauge -= 2;
+		if (Input.GetKeyDown(KeyCode.E) && dashGauge > 0) {
+			float newDashVelocity = dashVelocity;
+			if (dashGauge < 20)
+				newDashVelocity -= dashGauge;
+			rb.AddRelativeForce (0, 0, newDashVelocity);
+			dashGauge -= 20;
 		}
 
+		// Dash recharge
 		if (!Input.GetKey (KeyCode.E) && dashGauge < 100 && Time.time > dashReloadTime) {
 			dashGauge++;
 			dashReloadTime = Time.time + 0.1f;
