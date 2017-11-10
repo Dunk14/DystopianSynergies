@@ -42,17 +42,25 @@ public class FPSMovement : MonoBehaviour {
 
 		// Entrées clavier ZQSD déplaçant le joueur
 		float x = 0, z = 0;
-		if (Input.GetKey (KeyCode.Z) && Vector3.Project(rb.velocity, transform.forward).magnitude < maxWalkSpeed) {
-			x += 5f;
+		if (Input.GetKey (KeyCode.Z) && transform.InverseTransformDirection(rb.velocity).z < maxWalkSpeed) {
+			x += 3f;
+			if (transform.InverseTransformDirection (rb.velocity).z > -maxWalkSpeed)
+				x *= 3f;
 		}
-		if (Input.GetKey (KeyCode.S) && Vector3.Project(rb.velocity, transform.forward).magnitude < maxWalkSpeed) {
-			x -= 5f;
+		if (Input.GetKey (KeyCode.S) && transform.InverseTransformDirection(rb.velocity).z > -maxWalkSpeed) {
+			x -= 3f;
+			if (transform.InverseTransformDirection(rb.velocity).z < maxWalkSpeed)
+				x *= 3f;
 		}
-		if (Input.GetKey (KeyCode.Q) && Vector3.Project(rb.velocity, transform.right).magnitude < maxWalkSpeed) {
-			z -= 5f;
+		if (Input.GetKey (KeyCode.Q) && transform.InverseTransformDirection(rb.velocity).x > -maxWalkSpeed) {
+			z -= 3f;
+			if (transform.InverseTransformDirection(rb.velocity).x < maxWalkSpeed)
+				z *= 3f;
 		}
-		if (Input.GetKey (KeyCode.D) && Vector3.Project(rb.velocity, transform.right).magnitude < maxWalkSpeed) {
-			z += 5f;
+		if (Input.GetKey (KeyCode.D) && transform.InverseTransformDirection(rb.velocity).x < maxWalkSpeed) {
+			z += 3f;
+			if (transform.InverseTransformDirection(rb.velocity).x > -maxWalkSpeed)
+				z *= 3f;
 		}
 
 		// Arrêt prompt du glissement
@@ -102,7 +110,7 @@ public class FPSMovement : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Label(new Rect(20, 20, 200, 200), "rigidbody velocity: " + rb.velocity);
-		GUI.Label(new Rect(20, 40, 200, 200), "forward velocity: " + Vector3.Project(rb.velocity, transform.forward).magnitude);
+		GUI.Label(new Rect(20, 40, 200, 200), "local velocity: " + transform.InverseTransformDirection(rb.velocity));;
 		GUI.Label(new Rect(Display.main.systemWidth-100, Display.main.systemHeight-20, 200, 200), "Dash: " + dashGauge);
 	}
 }
