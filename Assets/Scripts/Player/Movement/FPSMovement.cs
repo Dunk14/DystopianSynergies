@@ -7,8 +7,8 @@ public class FPSMovement : MonoBehaviour {
 	public static FPSMovement instance;
 	public float walkAcceleration = 15f;
 	public float maxWalkSpeed = 15f;
-	public float jumpVelocity = 1500f;
-	public float dashVelocity = 100f;
+	public float jumpVelocity = 2500f;
+	public float dashVelocity = 15000f;
 	public float maxSlope = 45f;
 
 	private Rigidbody rb;
@@ -63,14 +63,14 @@ public class FPSMovement : MonoBehaviour {
 				z *= 3f;
 		}
 
-		// Arrêt prompt du glissement
-		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D))
-		    && isGrounded) {
-			rb.velocity *= 0.9f;
+		// Arrêt prompt du glissement à terre
+		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D)) && isGrounded) {
+			rb.velocity *= 0.8f;
 		}
 
-		// Friction légère en l'air
-		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D))) {
+		// Arrêt latent du glissement en l'air
+		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D)) && !isGrounded) {
+			rb.velocity *= 0.9999f;
 			Vector3 newVelocity = rb.velocity * 0.99f;
 			// Keep the original vertical velocity (jump speed)
 			newVelocity.y = rb.velocity.y;
@@ -99,7 +99,7 @@ public class FPSMovement : MonoBehaviour {
 
 		// Dash recharge
 		if (!Input.GetKey (KeyCode.E) && dashGauge < 100 && Time.time > dashReloadTime) {
-			dashGauge++;
+			dashGauge += 2;
 			dashReloadTime = Time.time + 0.1f;
 		}
 
