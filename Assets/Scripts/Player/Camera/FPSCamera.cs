@@ -15,6 +15,18 @@ public class FPSCamera : MonoBehaviour {
 	float xRotationV = 0.0f;
 	float yRotationV = 0.0f;
 
+	public float currentAimRatio = 1f;
+	public float headbobSpeed;
+	public float headbobStepCounter;
+	public float headbobAmountX;
+	public float headbobAmountY;
+	Vector3 parentLastPos;
+	public float eyeHeightRatio = 0.9f;
+
+	void Awake () {
+		parentLastPos = transform.parent.position;
+	}
+
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -22,6 +34,13 @@ public class FPSCamera : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (transform.parent.GetComponent<FPSMovement> ().isGrounded)
+			headbobStepCounter += Vector3.Distance(parentLastPos, transform.parent.position) * headbobSpeed;
+
+		transform.localPosition = getHeadbob ();
+
+		parentLastPos = transform.parent.position;
+			
 		xRotation -= Input.GetAxis("Mouse Y") * lookSensitivity;
 		yRotation += Input.GetAxis("Mouse X") * lookSensitivity;
 
@@ -32,4 +51,10 @@ public class FPSCamera : MonoBehaviour {
 
 		transform.rotation = Quaternion.Euler(currentXRotation, currentYRotation, 0);
 	}
-}﻿
+
+	Vector3 getHeadbob () {
+		return new Vector3(Mathf.Sin(headbobStepCounter) * headbobAmountX * currentAimRatio,
+					(Mathf.Cos(headbobStepCounter * 2) * headbobAmountY * -1 * currentAimRatio) + (transform.localScale.y * eyeHeightRatio) - (transform.localScale.y / 2),
+					transform.localScale.z);
+	}﻿
+}

@@ -13,7 +13,7 @@ public class FPSMovement : MonoBehaviour {
 
 	private Rigidbody rb;
 	private Vector2 horizontalMovement;
-	private bool isGrounded = false;
+	public bool isGrounded = false;
 	private bool doubleJumped = false;
 	private int dashGauge = 100;
 	private float dashReloadTime;
