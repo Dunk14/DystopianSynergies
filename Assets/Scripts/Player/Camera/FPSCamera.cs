@@ -10,7 +10,7 @@ public class FPSCamera : MonoBehaviour {
 	public int minVertical = 90;
 	public float xRotation;
 	public float yRotation;
-	float currentXRotation;
+	public float currentXRotation;
 	public float currentYRotation;
 	float xRotationV = 0.0f;
 	float yRotationV = 0.0f;
@@ -54,7 +54,7 @@ public class FPSCamera : MonoBehaviour {
 
 	Vector3 getHeadbob () {
 		return new Vector3(Mathf.Sin(headbobStepCounter) * headbobAmountX * currentAimRatio,
-					(Mathf.Cos(headbobStepCounter * 2) * headbobAmountY * -1 * currentAimRatio) + (transform.localScale.y * eyeHeightRatio) - (transform.localScale.y / 2),
+					(Mathf.Cos(headbobStepCounter * 2) * headbobAmountY * -1 * currentAimRatio) + (transform.parent.localScale.y * eyeHeightRatio) - (transform.parent.localScale.y / 2),
 					transform.localScale.z);
 	}﻿
 }

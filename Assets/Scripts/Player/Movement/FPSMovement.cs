@@ -10,10 +10,11 @@ public class FPSMovement : MonoBehaviour {
 	public float jumpVelocity = 2500f;
 	public float dashVelocity = 15000f;
 	public float maxSlope = 45f;
+	public bool isGrounded = false;
+	public bool isMoving = false;
 
 	private Rigidbody rb;
 	private Vector2 horizontalMovement;
-	public bool isGrounded = false;
 	private bool doubleJumped = false;
 	private int dashGauge = 100;
 	private float dashReloadTime;
@@ -42,23 +43,28 @@ public class FPSMovement : MonoBehaviour {
 
 		// Entrées clavier ZQSD déplaçant le joueur
 		float x = 0, z = 0;
+		isMoving = false;
 		if (Input.GetKey (KeyCode.Z) && transform.InverseTransformDirection(rb.velocity).z < maxWalkSpeed) {
 			x += 3f;
+			isMoving = true;
 			if (transform.InverseTransformDirection (rb.velocity).z > -maxWalkSpeed)
 				x *= 3f;
 		}
 		if (Input.GetKey (KeyCode.S) && transform.InverseTransformDirection(rb.velocity).z > -maxWalkSpeed) {
 			x -= 3f;
+			isMoving = true;
 			if (transform.InverseTransformDirection(rb.velocity).z < maxWalkSpeed)
 				x *= 3f;
 		}
 		if (Input.GetKey (KeyCode.Q) && transform.InverseTransformDirection(rb.velocity).x > -maxWalkSpeed) {
 			z -= 3f;
+			isMoving = true;
 			if (transform.InverseTransformDirection(rb.velocity).x < maxWalkSpeed)
 				z *= 3f;
 		}
 		if (Input.GetKey (KeyCode.D) && transform.InverseTransformDirection(rb.velocity).x < maxWalkSpeed) {
 			z += 3f;
+			isMoving = true;
 			if (transform.InverseTransformDirection(rb.velocity).x > -maxWalkSpeed)
 				z *= 3f;
 		}
