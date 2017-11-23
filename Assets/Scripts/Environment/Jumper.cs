@@ -21,13 +21,13 @@ public class Jumper : MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider other) {
-		if (other.gameObject.tag == "GameController") {
+		if (other.gameObject.tag == "GameController")
 			Jump (other.gameObject);
-		}
 	}
 
 	void Jump(GameObject player) {
 		Rigidbody rb = player.GetComponent<Rigidbody> ();
-		rb.AddForce (0, jumpForce, 0);
+		rb.velocity = Vector3.zero;
+		rb.AddForce (transform.parent.up * jumpForce);
 	}
 }

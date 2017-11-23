@@ -21,6 +21,11 @@ public class Gun : MonoBehaviour {
 	public float currentGunbobX;
 	public float currentGunbobY;
 
+	public float ratioHipHold = 1f;
+	public float ratioHipHoldV;
+	public float hipToAimSpeed = 0.1f;
+	public bool isAiming = false;
+
 	void Awake () {
 		defaultYRotation = transform.rotation.y;
 	}
@@ -32,15 +37,23 @@ public class Gun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
+		if (Input.GetMouseButtonDown (1))
+			isAiming = !isAiming;
+
+		if (isAiming)
+			ratioHipHold = Mathf.SmoothDamp (ratioHipHold, 0, ref ratioHipHoldV, hipToAimSpeed);
+		else
+			ratioHipHold = Mathf.SmoothDamp (ratioHipHold, 1, ref ratioHipHoldV, hipToAimSpeed);
+
 		currentGunbobX = Mathf.Sin (mainCamera.GetComponent<FPSCamera> ().headbobStepCounter) * gunbobAmountX;
 		currentGunbobY = Mathf.Cos (mainCamera.GetComponent<FPSCamera> ().headbobStepCounter * 2) * gunbobAmountY;
 
-		transform.position = mainCamera.transform.position + (Quaternion.Euler(targetXRotation, targetYRotation, 0) * new Vector3(holdSlide + currentGunbobX, holdHeight + currentGunbobY, holdDepth));
+		transform.position = mainCamera.transform.position + (Quaternion.Euler(targetXRotation, targetYRotation, 0) * new Vector3(holdSlide * ratioHipHold + currentGunbobX, holdHeight * ratioHipHold + currentGunbobY, holdDepth));
 	
 		targetXRotation = Mathf.SmoothDamp (targetXRotation, mainCamera.GetComponent<FPSCamera> ().xRotation, ref targetXRotationV, rotateSpeed); 
 		targetYRotation = Mathf.SmoothDamp (targetYRotation, mainCamera.GetComponent<FPSCamera> ().yRotation, ref targetYRotationV, rotateSpeed);
 	
-		transform.rotation = Quaternion.Euler (0, targetYRotation-75, -targetXRotation);
+		transform.rotation = Quaternion.Euler (0, targetYRotation-90, -targetXRotation+10);
 	}
 
 	Vector3 getPositionWithoutBob() {

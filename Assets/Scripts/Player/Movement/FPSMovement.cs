@@ -76,8 +76,7 @@ public class FPSMovement : MonoBehaviour {
 
 		// Arrêt latent du glissement en l'air
 		if ((!Input.GetKey (KeyCode.Z) && !Input.GetKey (KeyCode.S) && !Input.GetKey (KeyCode.Q) && !Input.GetKey (KeyCode.D)) && !isGrounded) {
-			rb.velocity *= 0.9999f;
-			Vector3 newVelocity = rb.velocity * 0.99f;
+			Vector3 newVelocity = rb.velocity * 0.9999f;
 			// Keep the original vertical velocity (jump speed)
 			newVelocity.y = rb.velocity.y;
 			rb.velocity = newVelocity;
